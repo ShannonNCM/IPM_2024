@@ -1,0 +1,158 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library("readxl")
+library("tidyverse")
+require("tidyverse")
+library("writexl")
+library("tibble")
+library("openxlsx")
+library("DBI")
+library("odbc")
+library("RSQLite")
+library("psych")
+library("pracma")
+library("bit64")
+library('glue')
+library('RMySQL')
+library('stringi')
+library('rlang')
+
+source("funciones.R")
+```
+
+Se importan las ponderaciones que se utilizan para hacer el calculo
+
+```{r}
+ponderaciones <- read_excel("Catalogo IPM.xlsx", sheet = "Ponderaciones") %>% 
+  mutate(PRODUCTOS = stri_trans_general(PRODUCTOS, "Latin-ASCII"))
+```
+
+Se importa la base de datos
+
+```{r}
+#se especifica el mes de calculo
+mes = "Febrero"
+```
+
+```{r}
+precio_act <- read_excel("precios_test.xlsx", sheet = "Sheet1") %>% 
+  select(CODIGOS, PRODUCTOS, mes) %>% 
+  drop_na(mes) %>% 
+  mutate(PRODUCTOS = stri_trans_general(PRODUCTOS, "Latin-ASCII"))
+```
+
+```{r}
+boleta <- ponderaciones %>% left_join(precio_act)
+#boleta
+```
+
+```{r}
+boleta <- assigncod(boleta)
+#boleta
+```
+
+```{r}
+indvar <- var_ind(boleta, mes)
+indprod <- ind(indvar, producto)
+indgrupo <- ind(indvar, grupo)
+indsubclase <- ind(indvar, subclase)
+indclase <- ind(indvar, clase)
+inddiv <- ind(indvar, division)
+```
+
+```{r}
+indgen <- indvar %>% 
+  summarize(pon_prod = sum(PONDERACION),
+            part_prod = sum(particp)) %>% 
+  mutate(ind = (part_prod/pon_prod)*100) %>% 
+  mutate(PRODUCTOS = 'INDICE GENERAL') %>% 
+  select(PRODUCTOS, ind)
+
+indgen
+```
+
+```{r}
+rbind(indgen, inddiv, indclase)
+```
+
+```{r}
+read_excel("resumen/resumen_ipm_Abril.xlsx", 
+    sheet = "res_Abril")
+```
+
+```{r}
+months <- c("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio")
+
+readind <- function(months, sheet_names){
+  dflist <- vector("list", length(months))
+  
+  for (i in seq_along(months)) {
+    file_path <- paste0("resumen/resumen_ipm_", months[i], ".xlsx")
+    sheet_name <- sheet_names[i]
+    dflist[[i]] <- read_excel(file_path, sheet = sheet_name)
+  }
+  return(dflist)
+}
+```
+
+```{r}
+months <- c("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio")
+
+sheet_names <- paste0("res_", months)
+ipm <- readind(months, sheet_names)
+
+resipm <- do.call(cbind, ipm)
+resipm
+```
+
+```{r}
+
+```
+
+```{r}
+# Define a function to update the variables based on a numeric month input
+update_month_variables <- function(month_number) {
+  # Vector of month names
+  month_names <- c("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+  
+  # Validate the input
+  if (month_number < 1 || month_number > 12) {
+    stop("Invalid month number. Please input a number between 1 and 12.")
+  }
+  
+  # Set the month name
+  mes <- month_names[month_number]
+  
+  # Set the column indices (month_number + 1 for end of interval)
+  colstorename <- 2:(month_number + 1)
+  
+  # Set the months up to the current month
+  months <- month_names[1:month_number]
+  
+  return(list(mes = mes, colstorename = colstorename, months = months))
+}
+
+# Example usage: Input month number
+month_number <- 6  # For June
+
+# Update variables
+updated_vars <- update_month_variables(month_number)
+
+# Extract variables
+mes <- updated_vars$mes
+colstorename <- updated_vars$colstorename
+months <- updated_vars$months
+
+# Print variables to check
+print(paste("Mes:", mes))
+print(paste("Colstorename:", toString(colstorename)))
+print(paste("Months:", toString(months)))
+```
+
+```{r}
+colstorename
+```
