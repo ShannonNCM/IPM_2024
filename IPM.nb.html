@@ -1754,25 +1754,163 @@ display: none;
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInJlYWR4bFwiKVxubGlicmFyeShcInRpZHl2ZXJzZVwiKVxucmVxdWlyZShcInRpZHl2ZXJzZVwiKVxubGlicmFyeShcIndyaXRleGxcIilcbmxpYnJhcnkoXCJ0aWJibGVcIilcbmxpYnJhcnkoXCJvcGVueGxzeFwiKVxubGlicmFyeShcIkRCSVwiKVxubGlicmFyeShcIm9kYmNcIilcbmxpYnJhcnkoXCJSU1FMaXRlXCIpXG5saWJyYXJ5KFwicHN5Y2hcIilcbmxpYnJhcnkoXCJwcmFjbWFcIilcbmxpYnJhcnkoXCJiaXQ2NFwiKVxubGlicmFyeSgnZ2x1ZScpXG5saWJyYXJ5KCdSTXlTUUwnKVxubGlicmFyeSgnc3RyaW5naScpXG5saWJyYXJ5KCdybGFuZycpXG5cbnNvdXJjZShcImZ1bmNpb25lcy5SXCIpXG5gYGAifQ== -->
-<pre class="r"><code>library(&quot;readxl&quot;)
-library(&quot;tidyverse&quot;)
-require(&quot;tidyverse&quot;)
-library(&quot;writexl&quot;)
-library(&quot;tibble&quot;)
-library(&quot;openxlsx&quot;)
-library(&quot;DBI&quot;)
-library(&quot;odbc&quot;)
-library(&quot;RSQLite&quot;)
-library(&quot;psych&quot;)
-library(&quot;pracma&quot;)
-library(&quot;bit64&quot;)
-library(&#39;glue&#39;)
-library(&#39;RMySQL&#39;)
-library(&#39;stringi&#39;)
-library(&#39;rlang&#39;)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInJlYWR4bFwiKVxuYGBgIn0= -->
+<pre class="r"><code>library(&quot;readxl&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhyZWFkeGzigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1xuIn0= -->
+<pre><code>Warning: package ‘readxl’ was built under R version 4.2.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInRpZHl2ZXJzZVwiKVxuYGBgIn0= -->
+<pre class="r"><code>library(&quot;tidyverse&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJh0aWR5dmVyc2XigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1dhcm5pbmc6IHBhY2thZ2Ug4oCYZ2dwbG90MuKAmSB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDQuMi4zV2FybmluZzogcGFja2FnZSDigJh0aWJibGXigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1dhcm5pbmc6IHBhY2thZ2Ug4oCYZHBseXLigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1dhcm5pbmc6IHBhY2thZ2Ug4oCYbHVicmlkYXRl4oCZIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gNC4yLjPilIDilIAgQXR0YWNoaW5nIGNvcmUgdGlkeXZlcnNlIHBhY2thZ2VzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2UgMi4wLjAg4pSA4pSAXG7inJQgZHBseXIgICAgIDEuMS40ICAgICDinJQgcmVhZHIgICAgIDIuMS40XG7inJQgZm9yY2F0cyAgIDEuMC4wICAgICDinJQgc3RyaW5nciAgIDEuNS4wXG7inJQgZ2dwbG90MiAgIDMuNC40ICAgICDinJQgdGliYmxlICAgIDMuMi4xXG7inJQgbHVicmlkYXRlIDEuOS4yICAgICDinJQgdGlkeXIgICAgIDEuMy4wXG7inJQgcHVycnIgICAgIDEuMC4xICAgICDilIDilIAgQ29uZmxpY3RzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG7inJYgZHBseXI6OmZpbHRlcigpIG1hc2tzIHN0YXRzOjpmaWx0ZXIoKVxu4pyWIGRwbHlyOjpsYWcoKSAgICBtYXNrcyBzdGF0czo6bGFnKClcbuKEuSBVc2UgdGhlIFx1MDAxYl04OztodHRwOi8vY29uZmxpY3RlZC5yLWxpYi5vcmcvXHUwMDA3Y29uZmxpY3RlZCBwYWNrYWdlXHUwMDFiXTg7O1x1MDAwNyB0byBmb3JjZSBhbGwgY29uZmxpY3RzIHRvIGJlY29tZSBlcnJvcnNcbiJ9 -->
+<pre><code>Warning: package ‘tidyverse’ was built under R version 4.2.3Warning: package ‘ggplot2’ was built under R version 4.2.3Warning: package ‘tibble’ was built under R version 4.2.3Warning: package ‘dplyr’ was built under R version 4.2.3Warning: package ‘lubridate’ was built under R version 4.2.3── Attaching core tidyverse packages ───────────────────────────────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     ── Conflicts ─────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShcInRpZHl2ZXJzZVwiKVxubGlicmFyeShcIndyaXRleGxcIilcbmBgYCJ9 -->
+<pre class="r"><code>require(&quot;tidyverse&quot;)
+library(&quot;writexl&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJh3cml0ZXhs4oCZIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gNC4yLjNcbiJ9 -->
+<pre><code>Warning: package ‘writexl’ was built under R version 4.2.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInRpYmJsZVwiKVxubGlicmFyeShcIm9wZW54bHN4XCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(&quot;tibble&quot;)
+library(&quot;openxlsx&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhvcGVueGxzeOKAmSB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDQuMi4zXG4ifQ== -->
+<pre><code>Warning: package ‘openxlsx’ was built under R version 4.2.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcIkRCSVwiKVxuYGBgIn0= -->
+<pre class="r"><code>library(&quot;DBI&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhEQknigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1xuIn0= -->
+<pre><code>Warning: package ‘DBI’ was built under R version 4.2.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcIm9kYmNcIilcbmBgYCJ9 -->
+<pre class="r"><code>library(&quot;odbc&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhvZGJj4oCZIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gNC4yLjNcbiJ9 -->
+<pre><code>Warning: package ‘odbc’ was built under R version 4.2.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcIlJTUUxpdGVcIilcbmBgYCJ9 -->
+<pre class="r"><code>library(&quot;RSQLite&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhSU1FMaXRl4oCZIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gNC4yLjNcbiJ9 -->
+<pre><code>Warning: package ‘RSQLite’ was built under R version 4.2.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInBzeWNoXCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(&quot;psych&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhwc3ljaOKAmSB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDQuMi4zXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYcHN5Y2jigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmdncGxvdDLigJk6XG5cbiAgICAlKyUsIGFscGhhXG4ifQ== -->
+<pre><code>Warning: package ‘psych’ was built under R version 4.2.3
+Attaching package: ‘psych’
 
-source(&quot;funciones.R&quot;)</code></pre>
+The following objects are masked from ‘package:ggplot2’:
+
+    %+%, alpha</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInByYWNtYVwiKVxuYGBgIn0= -->
+<pre class="r"><code>library(&quot;pracma&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhwcmFjbWHigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1xuQXR0YWNoaW5nIHBhY2thZ2U6IOKAmHByYWNtYeKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6cHN5Y2jigJk6XG5cbiAgICBsb2dpdCwgcG9sYXJcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIGZyb20g4oCYcGFja2FnZTpwdXJycuKAmTpcblxuICAgIGNyb3NzXG4ifQ== -->
+<pre><code>Warning: package ‘pracma’ was built under R version 4.2.3
+Attaching package: ‘pracma’
+
+The following objects are masked from ‘package:psych’:
+
+    logit, polar
+
+The following object is masked from ‘package:purrr’:
+
+    cross</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcImJpdDY0XCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(&quot;bit64&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBiaXRcblxuQXR0YWNoaW5nIHBhY2thZ2U6IOKAmGJpdOKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnByYWNtYeKAmTpcblxuICAgIGlzLnNvcnRlZFxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnBzeWNo4oCZOlxuXG4gICAga2V5c29ydFxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmRwbHly4oCZOlxuXG4gICAgc3ltZGlmZlxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICB4b3JcblxuQXR0YWNoaW5nIHBhY2thZ2UgYml0NjRcbnBhY2thZ2U6Yml0NjQgKGMpIDIwMTEtMjAxNyBKZW5zIE9laGxzY2hsYWVnZWxcbmNyZWF0b3JzOiBpbnRlZ2VyNjQgcnVuaWY2NCBzZXEgOlxuY29lcmNpb246IGFzLmludGVnZXI2NCBhcy52ZWN0b3IgYXMubG9naWNhbCBhcy5pbnRlZ2VyIGFzLmRvdWJsZSBhcy5jaGFyYWN0ZXIgYXMuYml0c3RyaW5nXG5sb2dpY2FsIG9wZXJhdG9yOiAhICYgfCB4b3IgIT0gPT0gPCA8PSA+PSA+XG5hcml0aG1ldGljIG9wZXJhdG9yOiArIC0gKiAvICUvJSAlJSBeXG5tYXRoOiBzaWduIGFicyBzcXJ0IGxvZyBsb2cyIGxvZzEwXG5tYXRoOiBmbG9vciBjZWlsaW5nIHRydW5jIHJvdW5kXG5xdWVyeWluZzogaXMuaW50ZWdlcjY0IGlzLnZlY3RvciBbaXMuYXRvbWljfSBbbGVuZ3RoXSBmb3JtYXQgcHJpbnQgc3RyXG52YWx1ZXM6IGlzLm5hIGlzLm5hbiBpcy5maW5pdGUgaXMuaW5maW5pdGVcbmFnZ3JlZ2F0aW9uOiBhbnkgYWxsIG1pbiBtYXggcmFuZ2Ugc3VtIHByb2RcbmN1bXVsYXRpb246IGRpZmYgY3VtbWluIGN1bW1heCBjdW1zdW0gY3VtcHJvZFxuYWNjZXNzOiBsZW5ndGg8LSBbIFs8LSBbWyBbWzwtXG5jb21iaW5lOiBjIHJlcCBjYmluZCByYmluZCBhcy5kYXRhLmZyYW1lXG5XQVJOSU5HIGRvbid0IHVzZSBhcyBzdWJzY3JpcHRzXG5XQVJOSU5HIHNlbWFudGljcyBkaWZmZXIgZnJvbSBpbnRlZ2VyXG5mb3IgbW9yZSBoZWxwIHR5cGUgP2JpdDY0XG5cbkF0dGFjaGluZyBwYWNrYWdlOiDigJhiaXQ2NOKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnV0aWxz4oCZOlxuXG4gICAgaGFzaHRhYlxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6YmFzZeKAmTpcblxuICAgICVpbiUsIDosIGlzLmRvdWJsZSwgbWF0Y2gsIG9yZGVyLCByYW5rXG4ifQ== -->
+<pre><code>Loading required package: bit
+
+Attaching package: ‘bit’
+
+The following object is masked from ‘package:pracma’:
+
+    is.sorted
+
+The following object is masked from ‘package:psych’:
+
+    keysort
+
+The following object is masked from ‘package:dplyr’:
+
+    symdiff
+
+The following object is masked from ‘package:base’:
+
+    xor
+
+Attaching package bit64
+package:bit64 (c) 2011-2017 Jens Oehlschlaegel
+creators: integer64 runif64 seq :
+coercion: as.integer64 as.vector as.logical as.integer as.double as.character as.bitstring
+logical operator: ! &amp; | xor != == &lt; &lt;= &gt;= &gt;
+arithmetic operator: + - * / %/% %% ^
+math: sign abs sqrt log log2 log10
+math: floor ceiling trunc round
+querying: is.integer64 is.vector [is.atomic} [length] format print str
+values: is.na is.nan is.finite is.infinite
+aggregation: any all min max range sum prod
+cumulation: diff cummin cummax cumsum cumprod
+access: length&lt;- [ [&lt;- [[ [[&lt;-
+combine: c rep cbind rbind as.data.frame
+WARNING don&#39;t use as subscripts
+WARNING semantics differ from integer
+for more help type ?bit64
+
+Attaching package: ‘bit64’
+
+The following object is masked from ‘package:utils’:
+
+    hashtab
+
+The following objects are masked from ‘package:base’:
+
+    %in%, :, is.double, match, order, rank</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSgnZ2x1ZScpXG5saWJyYXJ5KCdSTXlTUUwnKVxuYGBgIn0= -->
+<pre class="r"><code>library(&#39;glue&#39;)
+library(&#39;RMySQL&#39;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhSTXlTUUzigJkgd2FzIGJ1aWx0IHVuZGVyIFIgdmVyc2lvbiA0LjIuM1xuQXR0YWNoaW5nIHBhY2thZ2U6IOKAmFJNeVNRTOKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOlJTUUxpdGXigJk6XG5cbiAgICBpc0lkQ3VycmVudFxuIn0= -->
+<pre><code>Warning: package ‘RMySQL’ was built under R version 4.2.3
+Attaching package: ‘RMySQL’
+
+The following object is masked from ‘package:RSQLite’:
+
+    isIdCurrent</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSgnc3RyaW5naScpXG5saWJyYXJ5KCdybGFuZycpXG5gYGAifQ== -->
+<pre class="r"><code>library(&#39;stringi&#39;)
+library(&#39;rlang&#39;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcGFja2FnZSDigJhybGFuZ+KAmSB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDQuMi4zXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYcmxhbmfigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnB1cnJy4oCZOlxuXG4gICAgJUAlLCBmbGF0dGVuLCBmbGF0dGVuX2NociwgZmxhdHRlbl9kYmwsIGZsYXR0ZW5faW50LCBmbGF0dGVuX2xnbCwgZmxhdHRlbl9yYXcsIGludm9rZSxcbiAgICBzcGxpY2VcbiJ9 -->
+<pre><code>Warning: package ‘rlang’ was built under R version 4.2.3
+Attaching package: ‘rlang’
+
+The following objects are masked from ‘package:purrr’:
+
+    %@%, flatten, flatten_chr, flatten_dbl, flatten_int, flatten_lgl, flatten_raw, invoke,
+    splice</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiZnVuY2lvbmVzLlJcIilcbmBgYCJ9 -->
+<pre class="r"><code>source(&quot;funciones.R&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1792,8 +1930,9 @@ productos</p>
 2=Febrero, etc.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVzID0gNiAjY29sb2NhciBhcXVpIGVsIG1lcyBkZSBjYWxjdWxvIHkgY29ycmVyIHRvZG8gZWwgc2NyaXB0IChDcnRsK0FsdCtSKVxuXG52YXJpYWJsZXMgPC0gaW5wdXRkYXRhKG1lcylcblxubWVzIDwtIHZhcmlhYmxlcyRtZXNcbmNvbHN0b3JlbmFtZSA8LSB2YXJpYWJsZXMkY29sc3RvcmVuYW1lXG5tb250aHMgPC0gdmFyaWFibGVzJG1vbnRoc1xuY29sX2luZGljZXMgPC0gdmFyaWFibGVzJGNvbF9pbmRpY2VzXG5cbm1lc1xuYGBgIn0= -->
-<pre class="r"><code>mes = 6 #colocar aqui el mes de calculo y correr todo el script (Crtl+Alt+R)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVzID0gMyAjY29sb2NhciBhcXVpIGVsIG1lcyBkZSBjYWxjdWxvIHkgY29ycmVyIHRvZG8gZWwgc2NyaXB0IChDcnRsK0FsdCtSKVxuI21lcyA8LSBhcy5pbnRlZ2VyKHJlYWRsaW5lKHByb21wdCA9IFwiRW50ZXIgdGhlIG1vbnRoIG51bWJlciAoMS0xMik6IFwiKSlcblxudmFyaWFibGVzIDwtIGlucHV0ZGF0YShtZXMpXG5cbm1lcyA8LSB2YXJpYWJsZXMkbWVzXG5jb2xzdG9yZW5hbWUgPC0gdmFyaWFibGVzJGNvbHN0b3JlbmFtZVxubW9udGhzIDwtIHZhcmlhYmxlcyRtb250aHNcbmNvbF9pbmRpY2VzIDwtIHZhcmlhYmxlcyRjb2xfaW5kaWNlc1xuXG5tZXNcbmBgYCJ9 -->
+<pre class="r"><code>mes = 3 #colocar aqui el mes de calculo y correr todo el script (Crtl+Alt+R)
+#mes &lt;- as.integer(readline(prompt = &quot;Enter the month number (1-12): &quot;))
 
 variables &lt;- inputdata(mes)
 
@@ -1804,26 +1943,26 @@ col_indices &lt;- variables$col_indices
 
 mes</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiSnVuaW9cIlxuIn0= -->
-<pre><code>[1] &quot;Junio&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTWFyem9cIlxuIn0= -->
+<pre><code>[1] &quot;Marzo&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29sc3RvcmVuYW1lXG5gYGAifQ== -->
 <pre class="r"><code>colstorename</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIgMyA0IDUgNiA3XG4ifQ== -->
-<pre><code>[1] 2 3 4 5 6 7</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIgMyA0XG4ifQ== -->
+<pre><code>[1] 2 3 4</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9udGhzXG5gYGAifQ== -->
 <pre class="r"><code>months</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRW5lcm9cIiAgIFwiRmVicmVyb1wiIFwiTWFyem9cIiAgIFwiQWJyaWxcIiAgIFwiTWF5b1wiICAgIFwiSnVuaW9cIiAgXG4ifQ== -->
-<pre><code>[1] &quot;Enero&quot;   &quot;Febrero&quot; &quot;Marzo&quot;   &quot;Abril&quot;   &quot;Mayo&quot;    &quot;Junio&quot;  </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRW5lcm9cIiAgIFwiRmVicmVyb1wiIFwiTWFyem9cIiAgXG4ifQ== -->
+<pre><code>[1] &quot;Enero&quot;   &quot;Febrero&quot; &quot;Marzo&quot;  </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29sX2luZGljZXNcbmBgYCJ9 -->
 <pre class="r"><code>col_indices</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdICAxICAyICA0ICA2ICA4IDEwIDEyXG4ifQ== -->
-<pre><code>[1]  1  2  4  6  8 10 12</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEgMiA0IDZcbiJ9 -->
+<pre><code>[1] 1 2 4 6</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1839,8 +1978,8 @@ mes</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="cálculo-del-ipp" class="section level3">
-<h3>2. Cálculo del IPP</h3>
+<div id="cálculo-del-ipm" class="section level3">
+<h3>2. Cálculo del IPM</h3>
 <p>Se crea un dataframe con los datos necesarios</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
@@ -1879,10 +2018,10 @@ indvar01 &lt;- indvar %&gt;% select(PRODUCTOS, ind)</code></pre>
 
 indgen</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCZ3R5aVREbWl1QmlZR0JnWm1CaFltSmdaZ1V5R1ZoRFE5eDBMUmlBSWtBT0l3TUxBeWVJcmdBcUVnWXlRSUlDU0JKOG5uNHVuczZ1Q3U2dWZxNUJqajRnRVpDc3c4UzFsNkluUnZpakdjT2FsNWliV2d3MWdna3F5QmtRNU84UzZoemlId3dWWU03TVMwSFR5Rm1VWDY0SDA4d0wwdHdBSlA0REFib055VG1KeGNWb2p1UktTU3hKMUVzckF1b0g4djZoYVdIUEx5akp6TThEYW1JQytaQVZUVE5qRVpxQVFHa2V5Q1VwdXNrWnBYblp1a1lHSUJ2QThoREFDMlV6SXJHWklIWXkvWWVheFFvMWl5MDFMejB6THhYbStKekVwTlFjV01nQ3ZRejJzVjVCVVdaZUNjd3JRTkZpdlpMOGtrU1lPcTdrL0J5WUNOaHpEUDhBZFpDdTZOa0JBQUE9In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCZ3R5aVREbWl1QmlZR0JnWm1CaFltSmdaZ1V5R1ZoRFE5eDBMUmlBSWtBT0l3TUxBeWVJcmdBcUVnWXlRSUlDU0JKOG5uNHVuczZ1Q3U2dWZxNUJqajRnRVpDc3c4VEo4eUp6Zmo5Qk00WTFMekUzdFJocUJCTlVrRE1neU44bDFEbkVQeGdxd0p5Wmw0S21rYk1vdjF3UHBwa1hwTGtCU1B3SEFuUWJrbk1TaTR2UkhNbVZrbGlTcUpkV0JOUVA1UDFEMDhLZVgxQ1NtWjhIMU1RRThpRXJtbWJHSWpRQi90SThrRXRTZEpNelN2T3lkYzFCRm9DbElZQVh5bVpFWWpOQnJHVDZEeldLRldvVVcycGVlbVplS3N6dE9ZbEpxVG13Z0FYNkdPeGh2WUtpekx3U21FK0Fvc1Y2SmZrbGlUQjFYTW41T1RBUnNOOFkvZ0VBTTYxeXlOZ0JBQUE9In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ind"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1131.455"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ind"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1124.905"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
@@ -1904,10 +2043,10 @@ exp_excel(&quot;resultados/ipm&quot;, mes, indvar01, indprod, indgrupo, indsubcl
 <pre class="r"><code>resumen &lt;- rbind(indgen, inddiv, indclase)
 resumen</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NywibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI3IMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCZ3R5aVREbWl1QmlZR0JnWm1CaFltSmdaZ1V5R1ZoRFE5eDBMUmlBSWtBT0l3TUxBeWVJcmdBcUVnWXlRSUlDUU13T2xlRHo5SFB4ZEhaVmNIZjFjdzF5OUlHS2lnUUUrYnVFT29mNEJ5djRPVHA3K3ZzNStyZ0dZOHA1K2diNEI0VTR1dmpENVJ6ZGcvd0RYSjFESFlNOC9SVWlGUUpjZzUwZG9YSUtRSnRDZzBPQ1BCMFZmQjM5UXQwY25VTkNnNEIyd20yQXFwUERaZ2JDS3FncVJWeW13UlE2Z2p3SDhxakR4TFdYb2lkRytEdE1TdnJGc0R1eXpHRkN1OVg5MzMva0hDWmZjZFc1MjhqcU1IR09LRWVSNkJxSGlnV2YzL0tIc3p0TU9MSjQ2WExuQTJnaHlKcVhtSnRhREEwOUpxZ2dKendzb0FMTW1Ya3BhQm81aS9MTDlXQ2FlVUdhRzRERS8vLy9mNkxia0p5VFdBeXpBU2JJbFpKWWtxaVhWZ1RVRCtUOVE5UENubDlRa3BtZkI5VEVCSXBjVmpUTmpFVm9BZ0tsZVNDWHBPZ21aNVRtWmVzYUdZRnNBTXREQUMrVXpZN0Vab0xZeWZRZmFoWXIxQ3kyMUx6MHpMeFVtT056RXBOU2MyQ0pDdWhsc0kvMUNvb3k4MHBnWGdHS0Z1dVY1SmNrd3RSeEplZm53RVRBbm1QNEJ3RGNhTUJIMUFJQUFBPT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NywibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI3IMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCZ3R5aVREbWl1QmlZR0JnWm1CaFltSmdaZ1V5R1ZoRFE5eDBMUmlBSWtBT0l3TUxBeWVJcmdBcUVnWXlRSUlDUU13T2xlRHo5SFB4ZEhaVmNIZjFjdzF5OUlHS2lnUUUrYnVFT29mNEJ5djRPVHA3K3ZzNStyZ0dZOHA1K2diNEI0VTR1dmpENVJ6ZGcvd0RYSjFESFlNOC9SVWlGUUpjZzUwZG9YSUtRSnRDZzBPQ1BCMFZmQjM5UXQwY25VTkNnNEIyd20yQXFwUERaZ2JDS3FncVJWeW13UlE2Z2p3SDhxakR4TW56SW5OK1AzR1lwTWJ2ZFdGWGg4T0VwVlYrWHhYM09VeG0walZkS2xYa01IRjlVeUNQK3grSGlnV2YzL0tIc3p0TWVEeE5YN1huQlZvSXN1WWw1cVlXUTBPUENTcklDUThMcUFCelpsNEtta2JPb3Z4eVBaaG1YcERtQmlEeC8vLy9uK2cySk9ja0ZzTnNnQWx5cFNTV0pPcWxGUUgxQTNuLzBMU3c1eGVVWk9ibkFUVXhnU0tYRlUwell4R2FBSDlwSHNnbEtickpHYVY1MmJxV0lBdkEwaERBQzJXekk3R1pJRll5L1ljYXhRbzFpaTAxTHowekx4WG05cHpFcE5RY1dKb0MraGpzWWIyQ29zeThFcGhQZ0tMRmVpWDVKWWt3ZFZ6SitUa3dFYkRmR1A0QkFJejgxWFhUQWdBQSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ind"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1131.4554"},{"1":"PRODUCTOS NACIONALES","2":"1176.7441"},{"1":"PRODUCTOS IMPORTADOS","2":"1057.8075"},{"1":"AGROPECUARIO Y PESCA","2":"1269.0676"},{"1":"INDUSTRIA MANUFACTURERA NACIONAL","2":"1127.0205"},{"1":"AGROPECUARIO Y PESCA IMPORTADO","2":"394.0596"},{"1":"INDUSTRIA MANUFACTURERA IMPORTADA","2":"1073.1598"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[7]},"pages":{}}}
+{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ind"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1124.9046"},{"1":"PRODUCTOS NACIONALES","2":"1161.5149"},{"1":"PRODUCTOS IMPORTADOS","2":"1065.3694"},{"1":"AGROPECUARIO Y PESCA","2":"1216.5441"},{"1":"INDUSTRIA MANUFACTURERA NACIONAL","2":"1131.8773"},{"1":"AGROPECUARIO Y PESCA IMPORTADO","2":"394.0596"},{"1":"INDUSTRIA MANUFACTURERA IMPORTADA","2":"1080.8967"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[7]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
@@ -1942,10 +2081,10 @@ resipm &lt;- do.call(cbind, ipm)
 colnames(resipm) &lt;- make.unique(colnames(resipm))
 resipm</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NywibmNvbCI6MTIsInN1bW1hcnkiOnsiRGVzY3JpcHRpb24iOlsiZGYgWzcgw5cgMTJdIl19fSwicmRmIjoiSDRzSUFBQUFBQUFBQmd0eWlURG1pdUJpWUdCZ1ptQmhZbUpnWmdVeUdWaERROXgwTFJpQUlrQU9Jd01MQXllSXJnQXFFZ1l5ZUlCWUFJalpvUko4bm40dW5zNnVDdTZ1ZnE1QmpqNVFVWkdBSUgrWFVPY1EvMkFGUDBkblQzOC9SeC9YWUV3NVQ5OEEvNkFRUnhkL3VKeWplNUIvZ0t0enFHT1FwNzlDcEVLQWE3Q3pJMVJPQVdoVGFIQklrS2VqZ3Eralg2aWJvM05JYUJEUVRyZ05VSFZ5Mk14QVdBVlZwWWpMTkpoQ1I1RG5RQjUxbURpbitlVFZ5Q2NPazh4bUhYaHg1WVREaElYdkZ6TzczM0tZSExocnBwVGtTNGVKOCtTYXJueFZkYWhZOFBrdGZ6aTN3NFQ3MzdwbWl5MGFnUUhWZTFYWFZPNjR3eVNGNHVuYldaWTZUSmlmYmlBbHY5QmgwbU5KbmovcmVoMG1icCtYeVJ4c2hnaW91L0VTNGdIUFJtQkFUWjRYbWZQN2tzTWtOWDZ2Qzd1bU9VeFlXdVgzVmZHeXcyUW1YZE9sVWkwT0U5YzNCZks0ZjBRRTFPTnArcW85UDBaZ1FKMnJTYnYrK2FQRHBJWXRiN3h2WFhlWXNHWlZzbWlMcGNQa1dzY0o2cE5hSFNiKzJPRDBmbk1tSXFCZWZiaDBOSHpiQ0F5b3ZTSGJIakY4ZHBnVU0yRjF3WnRORGhOMkpUMit2M2VUdytRa3UvcE4vSlVPRTg4dnRQUHN2SXNJcUIrL0psNlgwQjZCQWJYMlV2VEVpQUNIU1VtL0dIWkhKamxNYUxlNi8vdVBqc1BrSzY0NmR4dkZnSVc5S0VlUjZHSkVRQjFadkhTNTh3VzA2cEExTHpFM3RSZ2FlanhRUVU1NFdFQUZtRFB6VXFCTWJyaWNuaUhNREtBc25JTWtiNFFzYjRRcGI0d3NiNHdwYjRJc2I0SXBiNG9zYjRybU1jNmkvSEk5bU9kNGdaaXBnUUVNMk5GRElEa25zUmdXQWpCQnJwVEVra1M5dENLZ2ZpRHZINW9XOXZ5Q2tzejhQS0FtSmxCTGdoVk5NMk1SbW9CQWFSN0lKU202eVJtbGVkbTZSaVlnRzhEeUVNQUxaYk1qc1hrZ2RqTDloNXJGQ2pXTExUVXZQVE12RmViNG5NU2sxQnhZb2dkNkdleGp2WUtpekx3U21GZUFvc1Y2SmZrbGlUQjFYTW41T1RBUnNPY1kvZ0VBWDhKb2FrRUpBQUE9In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NywibmNvbCI6Niwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbNyDDlyA2XSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJoWW1KZ1pnVXlHVmhEUTl4MExSaUFJa0FPSXdNTEF5ZUlyZ0FxRWdZeTJJQllBSWpab1JKOG5uNHVuczZ1Q3U2dWZxNUJqajVRVVpHQUlIK1hVT2NRLzJBRlAwZG5UMzgvUngvWFlFdzVUOThBLzZBUVJ4ZC91SnlqZTVCL2dLdHpxR09RcDc5Q3BFS0FhN0N6STFST0FXaFRhSEJJa0tlamdxK2pYNmlibzNOSWFCRFFUcmdOVUhWeTJNeEFXQVZWcFlqTE5KaENSNURuUUI1MW1EaW4rZVRWeUNjT2s4eG1IWGh4NVlURGhJWHZGek83MzNLWUhMaHJwcFRrUzRlSjgrU2FybnhWZGFoWThQa3RmemkzdzRUNzM3cG1peTBhZ1FIVmUxWFhWTzY0d3lTRjR1bmJXWlk2VEppZmJpQWx2OUJoMG1OSm5qL3JlaDBtYnArWHlSeHNoZ2lvdS9FUzRnSFBSbUJBVFo0WG1mUDdrc01rTlg2dkM3dW1PVXhZV3VYM1ZmR3l3MlFtWGRPbFVpME9FOWMzQmZLNGYwUUUxT05wK3FvOVA5RHlKR3RlWW01cU1UVDAyS0NDblBDd2dBb3daK2FsUUpuY2NEazlRNWdaUUZrNEIwbmVDRm5lQ00xaXpxTDhjajJZNWJ4QXpOVEFBQWJzNkM1TXpra3NocmtRSnNpVmtsaVNxSmRXQk5RUDVQMUQwOEtlWDFDU21aOEgxTVFFS201WTBUUXpGcUVKQ0pUbWdWeVNvcHVjVVpxWHJXdG9DTElCTEE4QnZGQTJPeEtiRFdJbjAzK29XYXhRczloUzg5SXo4MUpoanM5SlRFck5nU1ZLb0pmQlB0WXJLTXJNSzRGNUJTaGFyRmVTWDVJSVU4ZVZuSjhERXdGN2p1RWZBT2pwd1l0bUJRQUEifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ind"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.1"],"name":[3],"type":["chr"],"align":["left"]},{"label":["ind.1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.2"],"name":[5],"type":["chr"],"align":["left"]},{"label":["ind.2"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.3"],"name":[7],"type":["chr"],"align":["left"]},{"label":["ind.3"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.4"],"name":[9],"type":["chr"],"align":["left"]},{"label":["ind.4"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.5"],"name":[11],"type":["chr"],"align":["left"]},{"label":["ind.5"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1127.1287","3":"INDICE GENERAL","4":"1123.4582","5":"INDICE GENERAL","6":"1124.9046","7":"INDICE GENERAL","8":"1139.6215","9":"INDICE GENERAL","10":"1135.3327","11":"INDICE GENERAL","12":"1131.4554"},{"1":"PRODUCTOS NACIONALES","2":"1165.6511","3":"PRODUCTOS NACIONALES","4":"1160.1129","5":"PRODUCTOS NACIONALES","6":"1161.5149","7":"PRODUCTOS NACIONALES","8":"1184.1767","9":"PRODUCTOS NACIONALES","10":"1175.1413","11":"PRODUCTOS NACIONALES","12":"1176.7441"},{"1":"PRODUCTOS IMPORTADOS","2":"1064.4840","3":"PRODUCTOS IMPORTADOS","4":"1063.8508","5":"PRODUCTOS IMPORTADOS","6":"1065.3694","7":"PRODUCTOS IMPORTADOS","8":"1067.1664","9":"PRODUCTOS IMPORTADOS","10":"1070.5966","11":"PRODUCTOS IMPORTADOS","12":"1057.8075"},{"1":"AGROPECUARIO Y PESCA","2":"1236.4322","3":"AGROPECUARIO Y PESCA","4":"1208.7745","5":"AGROPECUARIO Y PESCA","6":"1216.5441","7":"AGROPECUARIO Y PESCA","8":"1247.3140","9":"AGROPECUARIO Y PESCA","10":"1240.5610","11":"AGROPECUARIO Y PESCA","12":"1269.0676"},{"1":"INDUSTRIA MANUFACTURERA NACIONAL","2":"1127.5298","3":"INDUSTRIA MANUFACTURERA NACIONAL","4":"1133.9047","5":"INDUSTRIA MANUFACTURERA NACIONAL","6":"1131.8773","7":"INDUSTRIA MANUFACTURERA NACIONAL","8":"1150.1721","9":"INDUSTRIA MANUFACTURERA NACIONAL","10":"1139.9075","11":"INDUSTRIA MANUFACTURERA NACIONAL","12":"1127.0205"},{"1":"AGROPECUARIO Y PESCA IMPORTADO","2":"394.0596","3":"AGROPECUARIO Y PESCA IMPORTADO","4":"394.0596","5":"AGROPECUARIO Y PESCA IMPORTADO","6":"394.0596","7":"AGROPECUARIO Y PESCA IMPORTADO","8":"394.0596","9":"AGROPECUARIO Y PESCA IMPORTADO","10":"394.0596","11":"AGROPECUARIO Y PESCA IMPORTADO","12":"394.0596"},{"1":"INDUSTRIA MANUFACTURERA IMPORTADA","2":"1079.9908","3":"INDUSTRIA MANUFACTURERA IMPORTADA","4":"1079.3429","5":"INDUSTRIA MANUFACTURERA IMPORTADA","6":"1080.8967","7":"INDUSTRIA MANUFACTURERA IMPORTADA","8":"1082.7352","9":"INDUSTRIA MANUFACTURERA IMPORTADA","10":"1086.2447","11":"INDUSTRIA MANUFACTURERA IMPORTADA","12":"1073.1598"}],"options":{"columns":{"min":{},"max":[10],"total":[12]},"rows":{"min":[10],"max":[10],"total":[7]},"pages":{}}}
+{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ind"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.1"],"name":[3],"type":["chr"],"align":["left"]},{"label":["ind.1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["PRODUCTOS.2"],"name":[5],"type":["chr"],"align":["left"]},{"label":["ind.2"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1127.1287","3":"INDICE GENERAL","4":"1123.4582","5":"INDICE GENERAL","6":"1124.9046"},{"1":"PRODUCTOS NACIONALES","2":"1165.6511","3":"PRODUCTOS NACIONALES","4":"1160.1129","5":"PRODUCTOS NACIONALES","6":"1161.5149"},{"1":"PRODUCTOS IMPORTADOS","2":"1064.4840","3":"PRODUCTOS IMPORTADOS","4":"1063.8508","5":"PRODUCTOS IMPORTADOS","6":"1065.3694"},{"1":"AGROPECUARIO Y PESCA","2":"1236.4322","3":"AGROPECUARIO Y PESCA","4":"1208.7745","5":"AGROPECUARIO Y PESCA","6":"1216.5441"},{"1":"INDUSTRIA MANUFACTURERA NACIONAL","2":"1127.5298","3":"INDUSTRIA MANUFACTURERA NACIONAL","4":"1133.9047","5":"INDUSTRIA MANUFACTURERA NACIONAL","6":"1131.8773"},{"1":"AGROPECUARIO Y PESCA IMPORTADO","2":"394.0596","3":"AGROPECUARIO Y PESCA IMPORTADO","4":"394.0596","5":"AGROPECUARIO Y PESCA IMPORTADO","6":"394.0596"},{"1":"INDUSTRIA MANUFACTURERA IMPORTADA","2":"1079.9908","3":"INDUSTRIA MANUFACTURERA IMPORTADA","4":"1079.3429","5":"INDUSTRIA MANUFACTURERA IMPORTADA","6":"1080.8967"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[7]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
@@ -1953,7 +2092,7 @@ resipm</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub3JkZW4gPC0gYygnSU5ESUNFIEdFTkVSQUwnLCdQUk9EVUNUT1MgTkFDSU9OQUxFUycsJ0FHUk9QRUNVQVJJTyBZIFBFU0NBJywgJ0lORFVTVFJJQSBNQU5VRkFDVFVSRVJBIE5BQ0lPTkFMJywgJ1BST0RVQ1RPUyBJTVBPUlRBRE9TJywgJ0lORFVTVFJJQSBNQU5VRkFDVFVSRVJBIElNUE9SVEFEQScpXG5cbnJlc2lwbSA8LSByZXNpcG0gJT4lIHNlbGVjdChhbGxfb2YoY29sX2luZGljZXMpKSAlPiUgXG4gIGZpbHRlcihQUk9EVUNUT1MgIT0gXCJBR1JPUEVDVUFSSU8gWSBQRVNDQSBJTVBPUlRBRE9cIilcblxucmVzSVBNIDwtIHJlc2lwbSAlPiUgXG4gIHJlbmFtZV9hdCh2YXJzKGNvbHN0b3JlbmFtZSksIH4gbW9udGhzKSAlPiUgXG4gIG11dGF0ZShQUk9EVUNUT1MgPSBmYWN0b3IoUFJPRFVDVE9TLCBsZXZlbHMgPSBvcmRlbikpICU+JSBcbiAgYXJyYW5nZShQUk9EVUNUT1MpXG5yZXNJUE1cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub3JkZW4gPC0gYygnSU5ESUNFIEdFTkVSQUwnLCdQUk9EVUNUT1MgTkFDSU9OQUxFUycsJ0FHUk9QRUNVQVJJTyBZIFBFU0NBJywgJ0lORFVTVFJJQSBNQU5VRkFDVFVSRVJBIE5BQ0lPTkFMJywgJ1BST0RVQ1RPUyBJTVBPUlRBRE9TJywgJ0lORFVTVFJJQSBNQU5VRkFDVFVSRVJBIElNUE9SVEFEQScpXG5cbnJlc2lwbSA8LSByZXNpcG0gJT4lIHNlbGVjdChhbGxfb2YoY29sX2luZGljZXMpKSAlPiUgXG4gIGZpbHRlcihQUk9EVUNUT1MgIT0gXCJBR1JPUEVDVUFSSU8gWSBQRVNDQSBJTVBPUlRBRE9cIilcblxucmVzSVBNIDwtIHJlc2lwbSAlPiUgXG4gIHJlbmFtZV9hdCh2YXJzKGNvbHN0b3JlbmFtZSksIH4gbW9udGhzKSAlPiUgXG4gIG11dGF0ZShQUk9EVUNUT1MgPSBmYWN0b3IoUFJPRFVDVE9TLCBsZXZlbHMgPSBvcmRlbikpICU+JSBcbiAgYXJyYW5nZShQUk9EVUNUT1MpXG5gYGAifQ== -->
 <pre class="r"><code>orden &lt;- c(&#39;INDICE GENERAL&#39;,&#39;PRODUCTOS NACIONALES&#39;,&#39;AGROPECUARIO Y PESCA&#39;, &#39;INDUSTRIA MANUFACTURERA NACIONAL&#39;, &#39;PRODUCTOS IMPORTADOS&#39;, &#39;INDUSTRIA MANUFACTURERA IMPORTADA&#39;)
 
 resipm &lt;- resipm %&gt;% select(all_of(col_indices)) %&gt;% 
@@ -1962,13 +2101,26 @@ resipm &lt;- resipm %&gt;% select(all_of(col_indices)) %&gt;%
 resIPM &lt;- resipm %&gt;% 
   rename_at(vars(colstorename), ~ months) %&gt;% 
   mutate(PRODUCTOS = factor(PRODUCTOS, levels = orden)) %&gt;% 
-  arrange(PRODUCTOS)
-resIPM</code></pre>
+  arrange(PRODUCTOS)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6Nywic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbNiDDlyA3XSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJoWW1KZ1pnVXlHVmhEUTl4MExSaUFJa0FPSXdNTEF5ZUlyZ0FxRWdZeTJJRTBMNUJtQTBzeU1EQ0JkUU5WZzNSQ3hGRTBzdVdrbHFYbUZBTlpBbUJaaUNpZnA1K0xwN09yZ3J1cm4ydVFvdzlVVkNRZ3lOOGwxRG5FUDFqQno5SFowOS9QMGNjMUdDYm42QjdrSCtEcUhPb1k1T212RUtrUTRCcnM3QWlWVXdDYUZob2NFdVRwcU9EcjZCZnE1dWdjRWhvRU5CZHVDcWI1bnI0Qi9rRWhqaTcrTVBNVmNaa0JVK21JNWpIVzVKekVZcGkvNEw1TlMwd3V5UzhDc3Y2QmZBa1NjWmc0cC9uazFjZ25EcFBNWmgxNGNlV0V3K1RBWFRPbEpGODZUSnduMTNUbHE2ckRoSVh2RnpPNzMzS1ljUDliMTJ5eFJRaDl2VmQxVGVXT08weFNLSjYrbldXcHc2VEhrangvMXZVNlROdytMNU01Mk14aHd2eDBBeW41aFE0VDdzWkxpQWM4UStpYlBDOHk1L2NsaDBscS9GNFhkazF6bU15a2E3cFVxc1ZoNHZxbVFCNzNqdzRUbGxiNWZWVzg3RERoOFRSOTFaNGZDSDNuYXRLdWYvN29NS2xoeXh2dlc5Y2RKdGM2VGxDZjFPb3c4Y2NHcC9lYk14MG1yRm1WTE5waTZURGgxWWRMUjhPM0lmVHREZG4yaU9Henc2U1lDYXNMM214eW1KeGtWNytKdjlKaDR2bUZkcDZkZHgwbTdFcDZmSC92Sm9jSlAzNU52QzZoamRDMzlsTDB4SWdBaDBsSnZ4aDJSeVk1VEw3aXFuTzNVUXdZWHFJY1JhS0xIU2EwVzkzLy9VZkhZY0tSeFV1WE8xOUFELzY4eE54VVdQQ3pRd1U1NFJFTVUrV2FsMXFVRCtXd3U2VW1GU0c0ckw2SlJWVndqbU5TVVdZT2xNUGltMWdKbC9BcXpjdk1SN09jc3lpL1hBL21BRkJ1WUdwZ0FBTm82bWYrajVZdXVGSVNTeEwxMG9xQVdpQnBBOFU0OXZ5Q2tzejhQS0JoVE1MUWJJU3NtYkVJVFVDZ05BOWtlWXB1Y2tacFhyYXVrU25JQm1oK1pJQzZpQkdhUjJGc2RvaWRMRENYc2NKU2JHcGVlbVplS3N5M09ZbEpxYkJnNEFQNkV1eEp2WUtpekx3U21GZUFvc1Y2SmZrbGlUQjFYTW41T1RBUlNNTC9Cd0M2ZU5HZldnUUFBQT09In0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogVXNpbmcgYW4gZXh0ZXJuYWwgdmVjdG9yIGluIHNlbGVjdGlvbnMgd2FzIGRlcHJlY2F0ZWQgaW4gdGlkeXNlbGVjdCAxLjEuMC5cblBsZWFzZSB1c2UgYGFsbF9vZigpYCBvciBgYW55X29mKClgIGluc3RlYWQuXG4jIFdhczpcbmRhdGEgJT4lIHNlbGVjdChjb2xzdG9yZW5hbWUpXG5cbiMgTm93OlxuZGF0YSAlPiUgc2VsZWN0KGFsbF9vZihjb2xzdG9yZW5hbWUpKVxuXG5TZWUgPGh0dHBzOi8vdGlkeXNlbGVjdC5yLWxpYi5vcmcvcmVmZXJlbmNlL2ZhcS1leHRlcm5hbC12ZWN0b3IuaHRtbD4uXG4ifQ== -->
+<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+Please use `all_of()` or `any_of()` instead.
+# Was:
+data %&gt;% select(colstorename)
+
+# Now:
+data %&gt;% select(all_of(colstorename))
+
+See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzSVBNXG5gYGAifQ== -->
+<pre class="r"><code>resIPM</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NCwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbNiDDlyA0XSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJoWW1KZ1pnVXlHVmhEUTl4MExSaUFJa0FPSXdNTEF5ZUlyZ0FxRWdZeVdJQTBMNUJtQTBzeU1EQ0JkWVBGR1ZnaDRpZ2EyWEpTeTFKemlvRXNBYkFzUkpUUDA4L0YwOWxWd2QzVnp6WEkwUWNxS2hJUTVPOFM2aHppSDZ6ZzUranM2ZS9uNk9NYURKTnpkQS95RDNCMURuVU04dlJYaUZRSWNBMTJkb1RLS1FCTkN3ME9DZkowVlBCMTlBdDFjM1FPQ1EwQ21nczNCZE44VDk4QS82QVFSeGQvbVBtS3VNeUFxWFJFOHhocmNrNWlNY3hmY04rbUpTYVg1QmNCV2Y5QXZnU0pPRXljMDN6eWF1UVRoMGxtc3c2OHVITENZWExncnBsU2tpOGRKczZUYTdyeVZkVmh3c0wzaTVuZGJ6bE11UCt0YTdiWUlvUyszcXU2cG5MSEhTWXBGRS9menJMVVlkSmpTWjQvNjNvZEptNmZsOGtjYk9Zd1lYNjZnWlQ4UW9jSmQrTWx4QU9lSWZSTm5oZVo4L3VTd3lRMWZxOEx1Nlk1VEdiU05WMHExZUl3Y1gxVElJLzdSNGNKUzZ2OHZpcGVkcGp3ZUpxK2FzOFBkRy9sSmVhbXdyekZBaFhraEFjY1RKVnJYbXBSUHBURDdwYWFWSVRnc3ZvbUZsWGxveG5MV1pSZnJnY3pHcFIrbUJvWXdBQ2FYcGovbzRVa1YwcGlTYUplV2hGUUN5UTBVWXhqenk4b3ljelBBeHJHSkF4TmVNaWFHWXZRQkFSSzgwQ1dwK2dtWjVUbVplc2FHb0ZzZ0taZ0JxaUxHS0dwR3NabWdkakpBbk1aS3l5T1UvUFNNL05TWWI3TlNVeEt6WUVsYTZBdndaN1VLeWpLekN1QmVRVW9XcXhYa2wrU0NGUEhsWnlmQXhPQkpKVi9BQ1NUanoyTUF3QUEifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Enero"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Febrero"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Marzo"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Abril"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Mayo"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Junio"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1127.129","3":"1123.458","4":"1124.905","5":"1139.621","6":"1135.333","7":"1131.455"},{"1":"PRODUCTOS NACIONALES","2":"1165.651","3":"1160.113","4":"1161.515","5":"1184.177","6":"1175.141","7":"1176.744"},{"1":"AGROPECUARIO Y PESCA","2":"1236.432","3":"1208.774","4":"1216.544","5":"1247.314","6":"1240.561","7":"1269.068"},{"1":"INDUSTRIA MANUFACTURERA NACIONAL","2":"1127.530","3":"1133.905","4":"1131.877","5":"1150.172","6":"1139.907","7":"1127.021"},{"1":"PRODUCTOS IMPORTADOS","2":"1064.484","3":"1063.851","4":"1065.369","5":"1067.166","6":"1070.597","7":"1057.807"},{"1":"INDUSTRIA MANUFACTURERA IMPORTADA","2":"1079.991","3":"1079.343","4":"1080.897","5":"1082.735","6":"1086.245","7":"1073.160"}],"options":{"columns":{"min":{},"max":[10],"total":[7]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+{"columns":[{"label":["PRODUCTOS"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Enero"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Febrero"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Marzo"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"INDICE GENERAL","2":"1127.129","3":"1123.458","4":"1124.905"},{"1":"PRODUCTOS NACIONALES","2":"1165.651","3":"1160.113","4":"1161.515"},{"1":"AGROPECUARIO Y PESCA","2":"1236.432","3":"1208.774","4":"1216.544"},{"1":"INDUSTRIA MANUFACTURERA NACIONAL","2":"1127.530","3":"1133.905","4":"1131.877"},{"1":"PRODUCTOS IMPORTADOS","2":"1064.484","3":"1063.851","4":"1065.369"},{"1":"INDUSTRIA MANUFACTURERA IMPORTADA","2":"1079.991","3":"1079.343","4":"1080.897"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
@@ -1987,7 +2139,7 @@ saveWorkbook(wb, &#39;IPM2024.xlsx&#39;, overwrite = TRUE)</code></pre>
 <!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNhbGN1bG8gSVBNIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpsaWJyYXJ5KCJyZWFkeGwiKQ0KbGlicmFyeSgidGlkeXZlcnNlIikNCnJlcXVpcmUoInRpZHl2ZXJzZSIpDQpsaWJyYXJ5KCJ3cml0ZXhsIikNCmxpYnJhcnkoInRpYmJsZSIpDQpsaWJyYXJ5KCJvcGVueGxzeCIpDQpsaWJyYXJ5KCJEQkkiKQ0KbGlicmFyeSgib2RiYyIpDQpsaWJyYXJ5KCJSU1FMaXRlIikNCmxpYnJhcnkoInBzeWNoIikNCmxpYnJhcnkoInByYWNtYSIpDQpsaWJyYXJ5KCJiaXQ2NCIpDQpsaWJyYXJ5KCdnbHVlJykNCmxpYnJhcnkoJ1JNeVNRTCcpDQpsaWJyYXJ5KCdzdHJpbmdpJykNCmxpYnJhcnkoJ3JsYW5nJykNCg0Kc291cmNlKCJmdW5jaW9uZXMuUiIpDQpgYGANCg0KIyMjIDEuIEltcG9ydGFjaW9uIGRlIGRhdG9zDQoNClNlIGltcG9ydGEgZWwgY2F0YWxvZ28gcXVlIGNvbnRpZW5lIGxhcyBwb25kZXJhY2lvbmVzIGRlIGxvcyBwcm9kdWN0b3MNCg0KYGBge3J9DQpwb25kZXJhY2lvbmVzIDwtIHJlYWRfZXhjZWwoIkNhdGFsb2dvIElQTS54bHN4Iiwgc2hlZXQgPSAiUG9uZGVyYWNpb25lcyIpICU+JSANCiAgbXV0YXRlKFBST0RVQ1RPUyA9IHN0cmlfdHJhbnNfZ2VuZXJhbChQUk9EVUNUT1MsICJMYXRpbi1BU0NJSSIpKQ0KYGBgDQoNClNlIGVzcGVjaWZpY2EgZWwgbWVzIGRlIGNhbGN1bG8gdXRpbGl6YW5kbyBudW1lcm9zIDE9RW5lcm8sIDI9RmVicmVybywgZXRjLg0KDQpgYGB7cn0NCm1lcyA9IDYgI2NvbG9jYXIgYXF1aSBlbCBtZXMgZGUgY2FsY3VsbyB5IGNvcnJlciB0b2RvIGVsIHNjcmlwdCAoQ3J0bCtBbHQrUikNCg0KdmFyaWFibGVzIDwtIGlucHV0ZGF0YShtZXMpDQoNCm1lcyA8LSB2YXJpYWJsZXMkbWVzDQpjb2xzdG9yZW5hbWUgPC0gdmFyaWFibGVzJGNvbHN0b3JlbmFtZQ0KbW9udGhzIDwtIHZhcmlhYmxlcyRtb250aHMNCmNvbF9pbmRpY2VzIDwtIHZhcmlhYmxlcyRjb2xfaW5kaWNlcw0KDQptZXMNCmNvbHN0b3JlbmFtZQ0KbW9udGhzDQpjb2xfaW5kaWNlcw0KYGBgDQoNClNlIGltcG9ydGFuIGxvcyBwcmVjaW9zIGRlbCBtZXMgYSBjYWxjdWxhcg0KDQpgYGB7cn0NCnByZWNpb19hY3QgPC0gcmVhZF9leGNlbCgicHJlY2lvcy54bHN4Iiwgc2hlZXQgPSAiU2hlZXQxIikgJT4lIA0KICBzZWxlY3QoQ09ESUdPUywgUFJPRFVDVE9TLCBhbGxfb2YobWVzKSkgJT4lIA0KICBkcm9wX25hKGFsbF9vZihtZXMpKSAlPiUgDQogIG11dGF0ZShQUk9EVUNUT1MgPSBzdHJpX3RyYW5zX2dlbmVyYWwoUFJPRFVDVE9TLCAiTGF0aW4tQVNDSUkiKSkNCmBgYA0KDQojIyMgMi4gQ8OhbGN1bG8gZGVsIElQUA0KDQpTZSBjcmVhIHVuIGRhdGFmcmFtZSBjb24gbG9zIGRhdG9zIG5lY2VzYXJpb3MNCg0KYGBge3J9DQpib2xldGEgPC0gcG9uZGVyYWNpb25lcyAlPiUgbGVmdF9qb2luKHByZWNpb19hY3QsIGJ5ID0gam9pbl9ieShDT0RJR09TLCBQUk9EVUNUT1MpKQ0KYm9sZXRhIDwtIGFzc2lnbmNvZChib2xldGEpDQpgYGANCg0KU2UgcmVhbGl6YSBlbCBjYWxjdWxvIGRlbCBpbmRpY2UgdXRpbGl6YW5kbyBsYXMgZnVuY2lvbmVzICd2YXJfaW5kJyBlICdpbmQnDQoNCmBgYHtyfQ0KaW5kdmFyIDwtIHZhcl9pbmQoYm9sZXRhLCBtZXMpDQppbmRwcm9kIDwtIGluZChpbmR2YXIsIHByb2R1Y3RvKQ0KaW5kZ3J1cG8gPC0gaW5kKGluZHZhciwgZ3J1cG8pDQppbmRzdWJjbGFzZSA8LSBpbmQoaW5kdmFyLCBzdWJjbGFzZSkNCmluZGNsYXNlIDwtIGluZChpbmR2YXIsIGNsYXNlKQ0KaW5kZGl2IDwtIGluZChpbmR2YXIsIGRpdmlzaW9uKQ0KDQppbmR2YXIwMSA8LSBpbmR2YXIgJT4lIHNlbGVjdChQUk9EVUNUT1MsIGluZCkNCmBgYA0KDQpTZSBjYWxjdWxhIGVsIGluZGljZSBnZW5lcmFsDQoNCmBgYHtyfQ0KaW5kZ2VuIDwtIGluZHZhciAlPiUgDQogIHN1bW1hcml6ZShwb25fcHJvZCA9IHN1bShQT05ERVJBQ0lPTiksDQogICAgICAgICAgICBwYXJ0X3Byb2QgPSBzdW0ocGFydGljcCkpICU+JSANCiAgbXV0YXRlKGluZCA9IChwYXJ0X3Byb2QvcG9uX3Byb2QpKjEwMCkgJT4lIA0KICBtdXRhdGUoUFJPRFVDVE9TID0gJ0lORElDRSBHRU5FUkFMJykgJT4lIA0KICBzZWxlY3QoUFJPRFVDVE9TLCBpbmQpDQoNCmluZGdlbg0KYGBgDQoNClNlIGd1YXJkYW4gbG9zIHJlc3VsdGFkb3MgZW4gdW4gYXJjaGl2byBkZSBleGNlbA0KDQpgYGB7cn0NCiNndWFyZGFtb3MgZWwgZGF0YWZyYW1lIGVuIHVuIGFyY2hpdm8gZGUgZXhjZWwNCmV4cF9leGNlbCgicmVzdWx0YWRvcy9pcG0iLCBtZXMsIGluZHZhcjAxLCBpbmRwcm9kLCBpbmRncnVwbywgaW5kc3ViY2xhc2UsIGluZGNsYXNlLGluZGRpdiwgaW5kZ2VuKQ0KYGBgDQoNClNlIGNyZWEgdW4gZGF0YWZyYW1lIHF1ZSByZXN1bWUgbG9zIGluZGljZXMNCg0KYGBge3J9DQpyZXN1bWVuIDwtIHJiaW5kKGluZGdlbiwgaW5kZGl2LCBpbmRjbGFzZSkNCnJlc3VtZW4NCmBgYA0KDQpTZSBndWFyZGEgZWwgcmVzdW1lbiBkZSBsb3MgaW5kaWNlcyBlbiB1bmEgY2FycGV0YQ0KDQpgYGB7cn0NCndiIDwtIGNyZWF0ZVdvcmtib29rKCkNCnNoZWV0X25hbWUgPC0gcGFzdGUwKCdyZXNfJywgbWVzKQ0KDQphZGRXb3Jrc2hlZXQod2IsIHNoZWV0X25hbWUpDQp3cml0ZURhdGEod2IsIHNoZWV0X25hbWUsIHJlc3VtZW4pDQoNCmZpbGVfbmFtZSA8LSBwYXN0ZTAoJ3Jlc3VtZW4vcmVzdW1lbl9pcG1fJywgbWVzLCAnLnhsc3gnKQ0KDQpzYXZlV29ya2Jvb2sod2IsIGZpbGVfbmFtZSwgb3ZlcndyaXRlID0gVFJVRSkNCmBgYA0KDQojIyMgMy4gR2VuZXJhY2nDs24gZGUgZXhjZWwgY29uIHJlc3VsdGFkb3MgZmluYWxlcw0KDQpgYGB7cn0NCnNoZWV0X25hbWVzIDwtIHBhc3RlMCgicmVzXyIsIG1vbnRocykNCmlwbSA8LSByZWFkaW5kKG1vbnRocywgc2hlZXRfbmFtZXMpDQoNCnJlc2lwbSA8LSBkby5jYWxsKGNiaW5kLCBpcG0pDQpjb2xuYW1lcyhyZXNpcG0pIDwtIG1ha2UudW5pcXVlKGNvbG5hbWVzKHJlc2lwbSkpDQpyZXNpcG0NCmBgYA0KDQpgYGB7cn0NCm9yZGVuIDwtIGMoJ0lORElDRSBHRU5FUkFMJywnUFJPRFVDVE9TIE5BQ0lPTkFMRVMnLCdBR1JPUEVDVUFSSU8gWSBQRVNDQScsICdJTkRVU1RSSUEgTUFOVUZBQ1RVUkVSQSBOQUNJT05BTCcsICdQUk9EVUNUT1MgSU1QT1JUQURPUycsICdJTkRVU1RSSUEgTUFOVUZBQ1RVUkVSQSBJTVBPUlRBREEnKQ0KDQpyZXNpcG0gPC0gcmVzaXBtICU+JSBzZWxlY3QoYWxsX29mKGNvbF9pbmRpY2VzKSkgJT4lIA0KICBmaWx0ZXIoUFJPRFVDVE9TICE9ICJBR1JPUEVDVUFSSU8gWSBQRVNDQSBJTVBPUlRBRE8iKQ0KDQpyZXNJUE0gPC0gcmVzaXBtICU+JSANCiAgcmVuYW1lX2F0KHZhcnMoY29sc3RvcmVuYW1lKSwgfiBtb250aHMpICU+JSANCiAgbXV0YXRlKFBST0RVQ1RPUyA9IGZhY3RvcihQUk9EVUNUT1MsIGxldmVscyA9IG9yZGVuKSkgJT4lIA0KICBhcnJhbmdlKFBST0RVQ1RPUykNCnJlc0lQTQ0KYGBgDQoNCmBgYHtyfQ0Kd2IgPC0gY3JlYXRlV29ya2Jvb2soKQ0KDQphZGRXb3Jrc2hlZXQod2IsICJyZXN1bWVuSVBNIikNCndyaXRlRGF0YSh3YiwgInJlc3VtZW5JUE0iLCByZXNJUE0pDQoNCnNhdmVXb3JrYm9vayh3YiwgJ0lQTTIwMjQueGxzeCcsIG92ZXJ3cml0ZSA9IFRSVUUpDQpgYGANCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNhbGN1bG8gSVBNIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpsaWJyYXJ5KCJyZWFkeGwiKQ0KbGlicmFyeSgidGlkeXZlcnNlIikNCnJlcXVpcmUoInRpZHl2ZXJzZSIpDQpsaWJyYXJ5KCJ3cml0ZXhsIikNCmxpYnJhcnkoInRpYmJsZSIpDQpsaWJyYXJ5KCJvcGVueGxzeCIpDQpsaWJyYXJ5KCJEQkkiKQ0KbGlicmFyeSgib2RiYyIpDQpsaWJyYXJ5KCJSU1FMaXRlIikNCmxpYnJhcnkoInBzeWNoIikNCmxpYnJhcnkoInByYWNtYSIpDQpsaWJyYXJ5KCJiaXQ2NCIpDQpsaWJyYXJ5KCdnbHVlJykNCmxpYnJhcnkoJ1JNeVNRTCcpDQpsaWJyYXJ5KCdzdHJpbmdpJykNCmxpYnJhcnkoJ3JsYW5nJykNCg0Kc291cmNlKCJmdW5jaW9uZXMuUiIpDQpgYGANCg0KIyMjIDEuIEltcG9ydGFjaW9uIGRlIGRhdG9zDQoNClNlIGltcG9ydGEgZWwgY2F0YWxvZ28gcXVlIGNvbnRpZW5lIGxhcyBwb25kZXJhY2lvbmVzIGRlIGxvcyBwcm9kdWN0b3MNCg0KYGBge3J9DQpwb25kZXJhY2lvbmVzIDwtIHJlYWRfZXhjZWwoIkNhdGFsb2dvIElQTS54bHN4Iiwgc2hlZXQgPSAiUG9uZGVyYWNpb25lcyIpICU+JSANCiAgbXV0YXRlKFBST0RVQ1RPUyA9IHN0cmlfdHJhbnNfZ2VuZXJhbChQUk9EVUNUT1MsICJMYXRpbi1BU0NJSSIpKQ0KYGBgDQoNClNlIGVzcGVjaWZpY2EgZWwgbWVzIGRlIGNhbGN1bG8gdXRpbGl6YW5kbyBudW1lcm9zIDE9RW5lcm8sIDI9RmVicmVybywgZXRjLg0KDQpgYGB7cn0NCm1lcyA9IDMgI2NvbG9jYXIgYXF1aSBlbCBtZXMgZGUgY2FsY3VsbyB5IGNvcnJlciB0b2RvIGVsIHNjcmlwdCAoQ3J0bCtBbHQrUikNCiNtZXMgPC0gYXMuaW50ZWdlcihyZWFkbGluZShwcm9tcHQgPSAiRW50ZXIgdGhlIG1vbnRoIG51bWJlciAoMS0xMik6ICIpKQ0KDQp2YXJpYWJsZXMgPC0gaW5wdXRkYXRhKG1lcykNCg0KbWVzIDwtIHZhcmlhYmxlcyRtZXMNCmNvbHN0b3JlbmFtZSA8LSB2YXJpYWJsZXMkY29sc3RvcmVuYW1lDQptb250aHMgPC0gdmFyaWFibGVzJG1vbnRocw0KY29sX2luZGljZXMgPC0gdmFyaWFibGVzJGNvbF9pbmRpY2VzDQoNCm1lcw0KY29sc3RvcmVuYW1lDQptb250aHMNCmNvbF9pbmRpY2VzDQpgYGANCg0KU2UgaW1wb3J0YW4gbG9zIHByZWNpb3MgZGVsIG1lcyBhIGNhbGN1bGFyDQoNCmBgYHtyfQ0KcHJlY2lvX2FjdCA8LSByZWFkX2V4Y2VsKCJwcmVjaW9zLnhsc3giLCBzaGVldCA9ICJTaGVldDEiKSAlPiUgDQogIHNlbGVjdChDT0RJR09TLCBQUk9EVUNUT1MsIGFsbF9vZihtZXMpKSAlPiUgDQogIGRyb3BfbmEoYWxsX29mKG1lcykpICU+JSANCiAgbXV0YXRlKFBST0RVQ1RPUyA9IHN0cmlfdHJhbnNfZ2VuZXJhbChQUk9EVUNUT1MsICJMYXRpbi1BU0NJSSIpKQ0KYGBgDQoNCiMjIyAyLiBDw6FsY3VsbyBkZWwgSVBNDQoNClNlIGNyZWEgdW4gZGF0YWZyYW1lIGNvbiBsb3MgZGF0b3MgbmVjZXNhcmlvcw0KDQpgYGB7cn0NCmJvbGV0YSA8LSBwb25kZXJhY2lvbmVzICU+JSBsZWZ0X2pvaW4ocHJlY2lvX2FjdCwgYnkgPSBqb2luX2J5KENPRElHT1MsIFBST0RVQ1RPUykpDQpib2xldGEgPC0gYXNzaWduY29kKGJvbGV0YSkNCmBgYA0KDQpTZSByZWFsaXphIGVsIGNhbGN1bG8gZGVsIGluZGljZSB1dGlsaXphbmRvIGxhcyBmdW5jaW9uZXMgJ3Zhcl9pbmQnIGUgJ2luZCcNCg0KYGBge3J9DQppbmR2YXIgPC0gdmFyX2luZChib2xldGEsIG1lcykNCmluZHByb2QgPC0gaW5kKGluZHZhciwgcHJvZHVjdG8pDQppbmRncnVwbyA8LSBpbmQoaW5kdmFyLCBncnVwbykNCmluZHN1YmNsYXNlIDwtIGluZChpbmR2YXIsIHN1YmNsYXNlKQ0KaW5kY2xhc2UgPC0gaW5kKGluZHZhciwgY2xhc2UpDQppbmRkaXYgPC0gaW5kKGluZHZhciwgZGl2aXNpb24pDQoNCmluZHZhcjAxIDwtIGluZHZhciAlPiUgc2VsZWN0KFBST0RVQ1RPUywgaW5kKQ0KYGBgDQoNClNlIGNhbGN1bGEgZWwgaW5kaWNlIGdlbmVyYWwNCg0KYGBge3J9DQppbmRnZW4gPC0gaW5kdmFyICU+JSANCiAgc3VtbWFyaXplKHBvbl9wcm9kID0gc3VtKFBPTkRFUkFDSU9OKSwNCiAgICAgICAgICAgIHBhcnRfcHJvZCA9IHN1bShwYXJ0aWNwKSkgJT4lIA0KICBtdXRhdGUoaW5kID0gKHBhcnRfcHJvZC9wb25fcHJvZCkqMTAwKSAlPiUgDQogIG11dGF0ZShQUk9EVUNUT1MgPSAnSU5ESUNFIEdFTkVSQUwnKSAlPiUgDQogIHNlbGVjdChQUk9EVUNUT1MsIGluZCkNCg0KaW5kZ2VuDQpgYGANCg0KU2UgZ3VhcmRhbiBsb3MgcmVzdWx0YWRvcyBlbiB1biBhcmNoaXZvIGRlIGV4Y2VsDQoNCmBgYHtyfQ0KI2d1YXJkYW1vcyBlbCBkYXRhZnJhbWUgZW4gdW4gYXJjaGl2byBkZSBleGNlbA0KZXhwX2V4Y2VsKCJyZXN1bHRhZG9zL2lwbSIsIG1lcywgaW5kdmFyMDEsIGluZHByb2QsIGluZGdydXBvLCBpbmRzdWJjbGFzZSwgaW5kY2xhc2UsaW5kZGl2LCBpbmRnZW4pDQpgYGANCg0KU2UgY3JlYSB1biBkYXRhZnJhbWUgcXVlIHJlc3VtZSBsb3MgaW5kaWNlcw0KDQpgYGB7cn0NCnJlc3VtZW4gPC0gcmJpbmQoaW5kZ2VuLCBpbmRkaXYsIGluZGNsYXNlKQ0KcmVzdW1lbg0KYGBgDQoNClNlIGd1YXJkYSBlbCByZXN1bWVuIGRlIGxvcyBpbmRpY2VzIGVuIHVuYSBjYXJwZXRhDQoNCmBgYHtyfQ0Kd2IgPC0gY3JlYXRlV29ya2Jvb2soKQ0Kc2hlZXRfbmFtZSA8LSBwYXN0ZTAoJ3Jlc18nLCBtZXMpDQoNCmFkZFdvcmtzaGVldCh3Yiwgc2hlZXRfbmFtZSkNCndyaXRlRGF0YSh3Yiwgc2hlZXRfbmFtZSwgcmVzdW1lbikNCg0KZmlsZV9uYW1lIDwtIHBhc3RlMCgncmVzdW1lbi9yZXN1bWVuX2lwbV8nLCBtZXMsICcueGxzeCcpDQoNCnNhdmVXb3JrYm9vayh3YiwgZmlsZV9uYW1lLCBvdmVyd3JpdGUgPSBUUlVFKQ0KYGBgDQoNCiMjIyAzLiBHZW5lcmFjacOzbiBkZSBleGNlbCBjb24gcmVzdWx0YWRvcyBmaW5hbGVzDQoNCmBgYHtyfQ0Kc2hlZXRfbmFtZXMgPC0gcGFzdGUwKCJyZXNfIiwgbW9udGhzKQ0KaXBtIDwtIHJlYWRpbmQobW9udGhzLCBzaGVldF9uYW1lcykNCg0KcmVzaXBtIDwtIGRvLmNhbGwoY2JpbmQsIGlwbSkNCmNvbG5hbWVzKHJlc2lwbSkgPC0gbWFrZS51bmlxdWUoY29sbmFtZXMocmVzaXBtKSkNCnJlc2lwbQ0KYGBgDQoNCmBgYHtyfQ0Kb3JkZW4gPC0gYygnSU5ESUNFIEdFTkVSQUwnLCdQUk9EVUNUT1MgTkFDSU9OQUxFUycsJ0FHUk9QRUNVQVJJTyBZIFBFU0NBJywgJ0lORFVTVFJJQSBNQU5VRkFDVFVSRVJBIE5BQ0lPTkFMJywgJ1BST0RVQ1RPUyBJTVBPUlRBRE9TJywgJ0lORFVTVFJJQSBNQU5VRkFDVFVSRVJBIElNUE9SVEFEQScpDQoNCnJlc2lwbSA8LSByZXNpcG0gJT4lIHNlbGVjdChhbGxfb2YoY29sX2luZGljZXMpKSAlPiUgDQogIGZpbHRlcihQUk9EVUNUT1MgIT0gIkFHUk9QRUNVQVJJTyBZIFBFU0NBIElNUE9SVEFETyIpDQoNCnJlc0lQTSA8LSByZXNpcG0gJT4lIA0KICByZW5hbWVfYXQodmFycyhjb2xzdG9yZW5hbWUpLCB+IG1vbnRocykgJT4lIA0KICBtdXRhdGUoUFJPRFVDVE9TID0gZmFjdG9yKFBST0RVQ1RPUywgbGV2ZWxzID0gb3JkZW4pKSAlPiUgDQogIGFycmFuZ2UoUFJPRFVDVE9TKQ0KcmVzSVBNDQpgYGANCg0KYGBge3J9DQp3YiA8LSBjcmVhdGVXb3JrYm9vaygpDQoNCmFkZFdvcmtzaGVldCh3YiwgInJlc3VtZW5JUE0iKQ0Kd3JpdGVEYXRhKHdiLCAicmVzdW1lbklQTSIsIHJlc0lQTSkNCg0Kc2F2ZVdvcmtib29rKHdiLCAnSVBNMjAyNC54bHN4Jywgb3ZlcndyaXRlID0gVFJVRSkNCmBgYA0K</div>
 
 
 

@@ -36,7 +36,8 @@ ponderaciones <- read_excel("Catalogo IPM.xlsx", sheet = "Ponderaciones") %>%
 Se especifica el mes de calculo utilizando numeros 1=Enero, 2=Febrero, etc.
 
 ```{r}
-mes = 6 #colocar aqui el mes de calculo y correr todo el script (Crtl+Alt+R)
+mes = 3 #colocar aqui el mes de calculo y correr todo el script (Crtl+Alt+R)
+#mes <- as.integer(readline(prompt = "Enter the month number (1-12): "))
 
 variables <- inputdata(mes)
 
@@ -60,7 +61,7 @@ precio_act <- read_excel("precios.xlsx", sheet = "Sheet1") %>%
   mutate(PRODUCTOS = stri_trans_general(PRODUCTOS, "Latin-ASCII"))
 ```
 
-### 2. Cálculo del IPP
+### 2. Cálculo del IPM
 
 Se crea un dataframe con los datos necesarios
 
