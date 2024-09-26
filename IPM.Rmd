@@ -36,7 +36,7 @@ ponderaciones <- read_excel("Catalogo IPM.xlsx", sheet = "Ponderaciones") %>%
 Se especifica el mes de calculo utilizando numeros 1=Enero, 2=Febrero, etc.
 
 ```{r}
-mes = 3 #colocar aqui el mes de calculo y correr todo el script (Crtl+Alt+R)
+mes = 6 #colocar aqui el mes de calculo y correr todo el script (Crtl+Alt+R)
 #mes <- as.integer(readline(prompt = "Enter the month number (1-12): "))
 
 variables <- inputdata(mes)

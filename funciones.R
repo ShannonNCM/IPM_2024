@@ -1,4 +1,5 @@
 #funcion para ingresar los datos
+# esta funcion me permite que el script corra de forma dinamica
 inputdata <- function(month_number) {
   month_names <- c("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
   

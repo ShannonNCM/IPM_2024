@@ -1,0 +1,17 @@
+Esta carpeta contiene el script de R con el cual se realiza el calculo del IPM de acuerdo al procedimiento que se realiza hasta la fecha.
+
+El archivo "IPM" tipo R Project abre R Studio con todos los scripts que se usan para el calculo. 
+
+El script principal es un R notebook llamado "IPM", con este script se realiza la importación de datos de la base de datos que se encuentra en un archivo de Excel llamado "precios.xlsx", este archivo tiene el formato adecuado para poder importar los precios sin ningún problema, pueden agregarse los precios pero no se debe modificar el formato ya que esto generara problemas al momento de cargar los datos. 
+
+El archivo "Catalogo IPM.xlsx" es un archivo de Excel que tiene el catalogo del IPM, para este catalogo "cree" un código para cada desagregación basado en los identificadores que tenían anteriormente para poder trabajar de manera mas sencilla.
+
+El archivo "funciones.R" contiene todas las funciones que se utilizan en el R notebook para poder realizar el calculo y exportar los datos a los archivos de Excel correspondientes.
+
+
+La carpeta "resultados" es en la que se guardan los resultados del calculo de índices para cada mes, por cada mes se genera un archivo de Excel de nombre "ipm_MES.xlsx" y cada archivo tiene una hoja por cada desagregación calculada.
+
+La carpeta "resumen" es en la que se guardan los resúmenes mensuales de los cálculos de cada mes, por cada mes se genera un archivo de Excel de nombre "resumen_ipm_Mes.xlsx". Estos archivos sirven para generar un archivo resumen con los resultados de cada mes hasta el mes calculado a la fecha, es decir, si el ultimo mes calculado es Abril, con los archivos resumen de cada mes desde Enero hasta Abril que se encuentran en la carpeta "resumen" se genera un archivo resumen llamado "IPM_2024", el cual se encuentra en la carpeta principal. El archivo "IPM_2024" se actualiza cada vez que se ejecuta el código para el mes que se esta calculando.
+ 
+
+
